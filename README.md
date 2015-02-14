@@ -56,10 +56,10 @@ exports.minSide=30; //最小截图边长
 
 //支持图像文件类型
 exports.imgtypes={
-        "gif": "image/gif",
-        "jpeg": "image/jpeg",
-        "jpg": "image/jpeg",
-        "png": "image/png"
+        'gif': 'image/gif',
+        'jpeg': 'image/jpeg',
+        'jpg': 'image/jpeg',
+        'png': 'image/png'
 };
 
 ```
@@ -147,13 +147,13 @@ api
 	 
 ```json
     {
-        "code": 200,
-        "msg": "upload success!",
-        "data": {
-            "t": "gif",
-            "userpath": "01",
-            "md5": "d6da9ccfcf52211eba99722207ee3d9a",
-            "url": "01/d6da9ccfcf52211eba99722207ee3d9a.gif"
+        'code': 200,
+        'msg': 'upload success!',
+        'data': {
+            't': 'gif',
+            'userpath': '01',
+            'md5': 'd6da9ccfcf52211eba99722207ee3d9a',
+            'url': '01/d6da9ccfcf52211eba99722207ee3d9a.gif'
         }
     }
 ```
@@ -162,8 +162,8 @@ api
      
 ```json
     {
-      "code": 300,
-      "msg": "filetype error,not supported txt"
+      'code': 300,
+      'msg': 'filetype error,not supported txt'
     }
       
 ```
@@ -176,8 +176,8 @@ api
      
 ```json
     {
-      "code": 200,
-      "msg": "exec ok!"
+      'code': 200,
+      'msg': 'exec ok!'
     }
 ```
  
@@ -185,8 +185,8 @@ api
     
 ```json
     {
-      "code": 301,
-      "msg": "exec fail"
+      'code': 301,
+      'msg': 'exec fail'
     }
 ```
 4.目录管理api  限制：内网调用
@@ -202,11 +202,11 @@ api
 ```json
     {
 
-        "code": 200,
-        "msg": "success!",
-        "data": {
-            "userpath": "854899",
-            "total": 32515395
+        'code': 200,
+        'msg': 'success!',
+        'data': {
+            'userpath': '854899',
+            'total': 32515395
         }
 
     }

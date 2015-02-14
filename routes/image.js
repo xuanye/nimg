@@ -1,5 +1,5 @@
-var fs = require("fs");
-var util = require("../util");
+var fs = require('fs');
+var util = require('../util');
 
 /************
  * get img

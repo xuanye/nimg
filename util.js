@@ -1,6 +1,6 @@
-var fs = require("fs");
-var path = require("path");
-var config = require("./config");
+var fs = require('fs');
+var path = require('path');
+var config = require('./config');
 var im = require('imagemagick');
 
 
@@ -31,16 +31,16 @@ var wrap_msg = function (code, msg, data) {
  */
 var decode_imgpath = function (imgPath) {
     var c;
-    var a = imgPath.substr(1).split("/");
+    var a = imgPath.substr(1).split('/');
     var r = a[0];//user path
     var img = a[1];//img
     if (a.length > 2) {
-        c = a[2].split("-")[1];//command
+        c = a[2].split('-')[1];//command
     }
-    a = img.split(".");
+    a = img.split('.');
     var anchor = a[0];//anchor
     var t = a[1];//img type
-    a = anchor.split("-");//md5
+    a = anchor.split('-');//md5
     var d = a[0];
 
     var w = 0;
@@ -93,7 +93,7 @@ var getimgpath = function (r, d, t, w, h, x) {
     var dir2 = str_hash(d, 3);
     var imgPath = config.imgroot + '/' + r + '/' + dir1 + '/' + dir2 + '/' + d + '-' + t;
 
-    imgPath = imgPath + '/' + w + '*' + h + ((x) ? x : "") + 'p';
+    imgPath = imgPath + '/' + w + '*' + h + ((x) ? x : '') + 'p';
     return imgPath;
 }
 
@@ -218,7 +218,7 @@ var del_img = function (imgpath, req, res) {
     console.log('del_img:' + imgpath);
     fs.unlink(imgpath, function (err) {
         if (err) {
-            console.error("del_img unlink error:" + err);
+            console.error('del_img unlink error:' + err);
 
             if (res) {
                 var json = wrap_msg(301, 'delete err!', null);
@@ -256,7 +256,7 @@ var save_img = function (tmpImg, targetImg) {
         console.log('%s:%s', new Date(), 'targetImg:' + targetImg);
 
         if (err) {
-            console.error('%s:%s', new Date(), "saveImg rename err:" + err);
+            console.error('%s:%s', new Date(), 'saveImg rename err:' + err);
             console.trace(err);
         } else {
             console.log('%s:%s', new Date(), 'saveImg success! targetImg:' + targetImg);
@@ -286,8 +286,8 @@ var read_size_img = function (srcPath, dstPath, f, w, h, x, req, res) {
                 function (err, stdout) {
                     if (err) {
                         console.trace(err);
-                        res.writeHead(404, "Not Found", {'Content-Type': 'text/plain'});
-                        res.write("This image file was not found on this server.");
+                        res.writeHead(404, 'Not Found', {'Content-Type': 'text/plain'});
+                        res.write('This image file was not found on this server.');
                         res.end();
                     } else {
                         console.log('%s:%s', new Date(), 'resize success! dstPath:' + dstPath);
@@ -309,30 +309,30 @@ var read_img = function (realPath, filetype, req, res) {
     fs.stat(realPath, function (err, stats) {
         if (err) {
             console.log('err:' + err);
-            res.writeHead(404, "Not Found", {'Content-Type': 'text/plain'});
-            res.write("This Image file was not found on this server.");
+            res.writeHead(404, 'Not Found', {'Content-Type': 'text/plain'});
+            res.write('This Image file was not found on this server.');
             res.end();
         } else {
             if (stats.isDirectory()) {
-                res.writeHead(404, "Not Found", {'Content-Type': 'text/plain'});
-                res.write("This image file was not found on this server~");
+                res.writeHead(404, 'Not Found', {'Content-Type': 'text/plain'});
+                res.write('This image file was not found on this server~');
                 res.end();
             } else {
-                var contentType = config.imgtypes[filetype] || "image/jpeg";
-                res.setHeader("Content-Type", contentType);
+                var contentType = config.imgtypes[filetype] || 'image/jpeg';
+                res.setHeader('Content-Type', contentType);
                 res.setHeader('Content-Length', stats.size);
 
                 var lastModified = stats.mtime.toUTCString();
-                var ifModifiedSince = "If-Modified-Since".toLowerCase();
-                res.setHeader("Last-Modified", lastModified);
+                var ifModifiedSince = 'If-Modified-Since'.toLowerCase();
+                res.setHeader('Last-Modified', lastModified);
 
                 var expires = new Date();
                 expires.setTime(expires.getTime() + 60 * 60 * 24 * 365 * 1000);
-                res.setHeader("Expires", expires.toUTCString());
-                res.setHeader("Cache-Control", "max-age=" + 60 * 60 * 24 * 365);
+                res.setHeader('Expires', expires.toUTCString());
+                res.setHeader('Cache-Control', 'max-age=' + 60 * 60 * 24 * 365);
 
                 if (req.headers[ifModifiedSince] && lastModified == req.headers[ifModifiedSince]) {
-                    res.writeHead(304, "Not Modified");
+                    res.writeHead(304, 'Not Modified');
                     res.end();
                 } else {
                     var compressHandle = function (raw, statusCode, reasonPhrase) {
@@ -341,15 +341,15 @@ var read_img = function (realPath, filetype, req, res) {
                         stream.pipe(res);
                     };
 
-                    if (req.headers["range"]) {
-                        var range = utils.parseRange(req.headers["range"], stats.size);
+                    if (req.headers['range']) {
+                        var range = utils.parseRange(req.headers['range'], stats.size);
                         if (range) {
-                            res.setHeader("Content-Range", "bytes " + range.start + "-" + range.end + "/" + stats.size);
-                            res.setHeader("Content-Length", (range.end - range.start + 1));
-                            var raw = fs.createReadStream(realPath, {"start": range.start, "end": range.end});
+                            res.setHeader('Content-Range', 'bytes ' + range.start + '-' + range.end + '/' + stats.size);
+                            res.setHeader('Content-Length', (range.end - range.start + 1));
+                            var raw = fs.createReadStream(realPath, {'start': range.start, 'end': range.end});
                             compressHandle(raw, 206);
                         } else {
-                            res.removeHeader("Content-Length");
+                            res.removeHeader('Content-Length');
                             res.writeHead(416);
                             res.end();
                         }

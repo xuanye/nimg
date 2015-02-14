@@ -9,7 +9,7 @@ var manage = require('./routes/manage');
 var upload = require('./routes/upload');
 var http = require('http');
 var path = require('path');
-var config = require("./config");
+var config = require('./config');
 
 var fs = require('fs');
 var errorLog = fs.createWriteStream(config.errorlog, {flags: 'a'});

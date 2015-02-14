@@ -1,11 +1,11 @@
-var fs = require("fs");
-var util = require("../util");
-var config = require("../config");
-var crypto=require("crypto");
+var fs = require('fs');
+var util = require('../util');
+var config = require('../config');
+var crypto=require('crypto');
 
 
 exports.exec = function (req, res) {
-    var a = req.path.substr(1).split("/");
+    var a = req.path.substr(1).split('/');
     var r=a[0];//get userpath from req path
 
     var imgpath;
@@ -66,7 +66,8 @@ exports.exec = function (req, res) {
         console.log('imgpath:' + imgpath);
 
         var url=r+'/'+d+'.'+t;
-        var json=util.wrap_msg(200,'upload success!',{t:t,userpath:r,md5:d,url:url});
+        var fullpath = config.root + url ;
+        var json=util.wrap_msg(200,'upload success!',{t:t,userpath:r,md5:d,url:url,fullpath:fullpath});
         res.json(json);
         res.end();
     });
